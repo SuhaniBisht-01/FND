@@ -1,5 +1,4 @@
-# main.py
-
+import warnings
 from flask import Flask, render_template, request, jsonify
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
@@ -13,14 +12,8 @@ models_dir = 'models'
 model_filepath = os.path.join(models_dir, 'logreg_model.pkl')
 vectorizer_filepath = os.path.join(models_dir, 'tfidf_vectorizer.pkl')
 
-
-import warnings
-from sklearn.exceptions import InconsistentVersionWarning
-
-# Ignore InconsistentVersionWarning from sklearn
-warnings.filterwarnings("ignore", category=InconsistentVersionWarning)
-
-
+# Ignore warnings (including the InconsistentVersionWarning from sklearn)
+warnings.filterwarnings("ignore", category=UserWarning)
 
 with open(model_filepath, 'rb') as model_file:
     logreg_model = pickle.load(model_file)
@@ -54,6 +47,5 @@ def predict():
 
         return jsonify({'prediction': int(prediction)})
 
-
 if __name__ == '__main__':
-    app.run(debug=True , port=5002)  # Change port number to 5001 or any other available port
+    app.run(debug=True , port=5002)  # Change port number to 5001 or any other available port now?
